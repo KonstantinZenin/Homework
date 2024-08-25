@@ -1,3 +1,5 @@
+import json
+
 from Data.cities import cities_list
 from pprint import pprint
 from random import randint
@@ -14,14 +16,27 @@ rules = (
     "однако из-за продолжительности и монотонности игрового процесса игра может закончиться ничьей"
     )
 
+json_file = "./data/cities.json"
+
 player_input = ""
 
 player_score = 0
 
 computer_score = 0
 
-cities_set = {city["name"].lower() for city in cities_list}
+
+# cities_set = {city["name"].lower() for city in cities_list}
 # cities_set = {"яхрома", "абаза", "абдулино", "орёл", "лабинск", "калининград", "вад"}
+
+with open(json_file, "w", encoding="utf-8") as file:
+    json.dump(cities_list, file, ensure_ascii=False, indent=4)
+
+with open(json_file, "r", encoding="utf-8") as file:
+    cities_list_from_fson = json.load(file)
+
+cities_set = {city["name"].lower() for city in cities_list_from_fson}
+
+print(cities_set)
 
 player_cities = set()
 
@@ -137,6 +152,8 @@ def game():
 print(f"Давай сыграем в игру города! Правила у неё довольно простые:")
 pprint(rules)
 print("Будь внимателен названия городов нужно вводить точно и без знаков препинания и пробелов")
+game()
+
 game()
 
 pprint(F"Поздравляю! вы победили сумев назвать все города из нашего списка!"
